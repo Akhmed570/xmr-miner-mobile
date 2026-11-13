@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XMR MINER</title>
+<style>
+body {
+  background:#101510;
+  color:white;
+  font-family:Arial,sans-serif;
+  text-align:center;
+  padding:25px;
+}
+.card {
+  background:#1b251d;
+  padding:25px;
+  border-radius:20px;
+  margin-top:25px;
+}
+h1 {color:#ff9d35}
+.balance {
+  font-size:30px;
+  color:#ffbd68;
+}
+button {
+  border:0;
+  padding:15px 30px;
+  margin:10px;
+  border-radius:12px;
+  font-size:17px;
+}
+#start {background:#ff9d35}
+#stop {background:#555;color:white}
+</style>
+</head>
+<body>
+
+<h1>XMR MINER</h1>
+<p>Monero mining dashboard</p>
+
+<div class="card">
+  <p>Demo balans</p>
+  <div class="balance" id="balance">0.000000 XMR</div>
+  <p>Hashrate: <span id="hash">0</span> H/s</p>
+  <p>Holat: <span id="status">STOPPED</span></p>
+
+  <button id="start" onclick="startMiner()">START</button>
+  <button id="stop" onclick="stopMiner()">STOP</button>
+</div>
+
+<script>
+let running = false;
+let balance = 0;
+let timer;
+
+function startMiner() {
+  if (running) return;
+  running = true;
+  document.getElementById("status").textContent="DEMO RUNNING";
+
+  timer = setInterval(() => {
+    document.getElementById("hash").textContent =
+      Math.floor(100 + Math.random()*200);
+    balance += 0.000001;
+    document.getElementById("balance").textContent =
+      balance.toFixed(6)+" XMR";
+  },1000);
+}
+
+function stopMiner() {
+  running = false;
+  clearInterval(timer);
+  document.getElementById("status").textContent="STOPPED";
+  document.getElementById("hash").textContent="0";
+}
+</script>
+
+</body>
+</html>
