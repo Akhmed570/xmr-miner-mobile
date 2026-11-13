@@ -3,78 +3,195 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>XMR MINER</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101510">
+<title>XMR MINER MOBILE</title>
+
 <style>
+* {box-sizing:border-box}
+
 body {
+  margin:0;
+  padding:25px 18px;
   background:#101510;
   color:white;
   font-family:Arial,sans-serif;
-  text-align:center;
-  padding:25px;
 }
+
+h1 {
+  color:#ff9d35;
+  text-align:center;
+  letter-spacing:2px;
+}
+
+.subtitle {
+  text-align:center;
+  color:#aaa;
+}
+
 .card {
   background:#1b251d;
-  padding:25px;
+  padding:22px;
   border-radius:20px;
-  margin-top:25px;
+  margin-top:22px;
+  border:1px solid #354438;
 }
-h1 {color:#ff9d35}
+
 .balance {
   font-size:30px;
   color:#ffbd68;
+  text-align:center;
+  margin:15px 0;
 }
+
+.stats {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.stat {
+  background:#263329;
+  padding:15px;
+  border-radius:13px;
+}
+
+.stat small {
+  color:#aaa;
+}
+
+.stat strong {
+  display:block;
+  margin-top:8px;
+}
+
 button {
   border:0;
-  padding:15px 30px;
-  margin:10px;
+  padding:15px;
+  margin-top:12px;
+  width:100%;
   border-radius:12px;
   font-size:17px;
+  font-weight:bold;
 }
-#start {background:#ff9d35}
-#stop {background:#555;color:white}
+
+#start {
+  background:#ff9d35;
+  color:#171717;
+}
+
+#stop {
+  background:#444;
+  color:white;
+}
+
+.status {
+  text-align:center;
+  color:#ffbd68;
+  margin-top:15px;
+}
+
+.note {
+  color:#999;
+  font-size:12px;
+  line-height:1.6;
+  text-align:center;
+}
 </style>
 </head>
+
 <body>
 
 <h1>XMR MINER</h1>
-<p>Monero mining dashboard</p>
+<p class="subtitle">MONERO MOBILE DASHBOARD</p>
 
 <div class="card">
-  <p>Demo balans</p>
-  <div class="balance" id="balance">0.000000 XMR</div>
-  <p>Hashrate: <span id="hash">0</span> H/s</p>
-  <p>Holat: <span id="status">STOPPED</span></p>
 
-  <button id="start" onclick="startMiner()">START</button>
-  <button id="stop" onclick="stopMiner()">STOP</button>
+<p style="text-align:center">
+DEMO BALANCE
+</p>
+
+<div class="balance" id="balance">
+0.000000 XMR
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<small>Hashrate</small>
+<strong id="hash">0 H/s</strong>
+</div>
+
+<div class="stat">
+<small>Server</small>
+<strong id="server">Ulanmagan</strong>
+</div>
+
+<div class="stat">
+<small>Holat</small>
+<strong id="status">STOPPED</strong>
+</div>
+
+<div class="stat">
+<small>Mining</small>
+<strong id="mode">DEMO</strong>
+</div>
+
+</div>
+
+<button id="start" onclick="startMiner()">
+START
+</button>
+
+<button id="stop" onclick="stopMiner()">
+STOP
+</button>
+
+<p class="note">
+Bu demo interfeys. Haqiqiy Monero mining
+bajarmaydi. Balans va Hashrate haqiqiy
+daromadni bildirmaydi.
+</p>
+
 </div>
 
 <script>
+
 let running = false;
-let balance = 0;
-let timer;
 
 function startMiner() {
-  if (running) return;
-  running = true;
-  document.getElementById("status").textContent="DEMO RUNNING";
 
-  timer = setInterval(() => {
-    document.getElementById("hash").textContent =
-      Math.floor(100 + Math.random()*200);
-    balance += 0.000001;
-    document.getElementById("balance").textContent =
-      balance.toFixed(6)+" XMR";
-  },1000);
+  if (running) return;
+
+  running = true;
+
+  document.getElementById("status")
+    .textContent = "MONITORING ACTIVE";
+
+  document.getElementById("server")
+    .textContent = "Ulanmagan";
+
+  document.getElementById("hash")
+    .textContent = "0 H/s";
+
+  document.getElementById("balance")
+    .textContent = "0.000000 XMR";
+
 }
 
 function stopMiner() {
+
   running = false;
-  clearInterval(timer);
-  document.getElementById("status").textContent="STOPPED";
-  document.getElementById("hash").textContent="0";
+
+  document.getElementById("status")
+    .textContent = "STOPPED";
+
+  document.getElementById("hash")
+    .textContent = "0 H/s";
+
 }
+
 </script>
 
 </body>
