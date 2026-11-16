@@ -3,177 +3,117 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101510">
-<title>XMR MINER V2</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>JARVES FOREX BOT</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;padding:22px 16px;background:#101510;
- color:white;font-family:Arial,sans-serif
-}
-h1{text-align:center;color:#ff9d35;letter-spacing:3px}
-.subtitle{text-align:center;color:#aaa;font-size:12px}
-.card{
- background:#1b251d;padding:20px;border-radius:18px;
- margin-top:18px;border:1px solid #354438
-}
-.balance{text-align:center;font-size:30px;color:#ffbd68;margin:18px 0}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{background:#263329;padding:14px;border-radius:12px}
-.stat small{color:#aaa}
-.stat strong{display:block;margin-top:8px;overflow-wrap:anywhere}
-button{
- width:100%;padding:14px;margin-top:12px;border:0;
- border-radius:11px;font-size:16px;font-weight:bold
-}
-.start{background:#ff9d35;color:#171717}
-.stop{background:#444;color:white}
-.secondary{background:#344439;color:white}
-input{
- width:100%;padding:13px;margin-top:7px;
- border-radius:9px;border:1px solid #526252;
- background:#101a12;color:white;font-size:14px
-}
-label{display:block;margin-top:14px;color:#ddd;font-size:13px}
-.status{text-align:center;color:#ffbd68;margin-top:15px}
-.note{font-size:12px;line-height:1.6;color:#aaa;text-align:center}
-.hidden{display:none}
-.green{color:#70df8a}
-.orange{color:#ffbd68}
+body{margin:0;background:#07111f;color:#fff;font-family:Arial,sans-serif;padding:18px}
+header{padding:18px 0}
+h1{font-size:25px;margin:0;color:#54c8ff}
+.sub{color:#91a4ba;font-size:12px;margin-top:7px}
+.card{background:#122238;border:1px solid #263c56;border-radius:15px;padding:16px;margin:13px 0}
+.label{color:#91a4ba;font-size:12px}
+.value{font-size:22px;font-weight:bold;margin-top:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{border:0;border-radius:12px;padding:16px;font-size:16px;font-weight:bold;width:100%;color:white}
+.start{background:#0b9e68}
+.stop{background:#d63e4c}
+button:disabled{opacity:.4}
+select{width:100%;padding:12px;background:#07111f;color:white;border:1px solid #344b66;border-radius:9px;margin-top:8px}
+.status{font-weight:bold;color:#ffbd55}
+.signal{font-size:14px;line-height:1.7;color:#c8d8e9}
+footer{color:#71849a;font-size:11px;text-align:center;margin:25px 0}
 </style>
 </head>
 <body>
-
-<h1>XMR MINER</h1>
-<p class="subtitle">MONERO MOBILE DASHBOARD V2</p>
+<header>
+<h1>JARVES FOREX BOT</h1>
+<div class="sub">SMART SCALPING • EXNESS MT5 DEMO</div>
+</header>
 
 <div class="card">
- <p style="text-align:center;color:#aaa">MINING BALANCE</p>
- <div class="balance" id="balance">— XMR</div>
-
- <div class="stats">
-  <div class="stat"><small>Hashrate</small><strong id="hash">— H/s</strong></div>
-  <div class="stat"><small>Server</small><strong id="server">Ulanmagan</strong></div>
-  <div class="stat"><small>Holat</small><strong id="status">STOPPED</strong></div>
-  <div class="stat"><small>Rejim</small><strong id="mode">MONITORING</strong></div>
-  <div class="stat"><small>Qabul qilingan share</small><strong id="shares">—</strong></div>
-  <div class="stat"><small>Rad etilgan share</small><strong id="rejected">—</strong></div>
- </div>
-
- <button class="start" onclick="startMonitor()">START MONITORING</button>
- <button class="stop" onclick="stopMonitor()">STOP</button>
- <button class="secondary" onclick="showSettings()">SERVER SOZLAMALARI</button>
- <p class="status" id="message">Monitoring to‘xtatilgan</p>
+<div class="label">BOT HOLATI</div>
+<div class="value status" id="status">TO‘XTATILGAN</div>
+<p class="label" id="message">Bot hali ishga tushirilmagan.</p>
+<div class="grid">
+<button class="start" id="start">▶ START</button>
+<button class="stop" id="stop" disabled>■ STOP</button>
+</div>
 </div>
 
-<div class="card hidden" id="settings">
- <h3 style="color:#ff9d35">SERVER SOZLAMALARI</h3>
-
- <label>XMR Wallet manzili</label>
- <input id="wallet" placeholder="4... yoki 8...">
-
- <label>Mining Pool URL</label>
- <input id="pool" placeholder="Masalan: pool.example.com">
-
- <label>Pool Port</label>
- <input id="port" type="number" placeholder="Port raqami">
-
- <label>XMRig API manzili (monitoring)</label>
- <input id="api" type="url" placeholder="https://your-server.example/api/2/summary">
-
- <button class="start" onclick="saveSettings()">SOZLAMALARNI SAQLASH</button>
- <p class="note">
- Wallet manzili maxfiy kalit emas. Seed phrase va maxfiy kalitni
- bu yerga hech qachon kiritmang.
- </p>
+<div class="grid">
+<div class="card">
+<div class="label">OLTIN</div>
+<div class="value">XAUUSD</div>
+</div>
+<div class="card">
+<div class="label">KUMUSH</div>
+<div class="value">XAGUSD</div>
+</div>
 </div>
 
 <div class="card">
- <h3 style="color:#ff9d35">LOYIHA HOLATI</h3>
- <p id="connection">XMRig server hali ulanmagan.</p>
- <p class="note">
- Bu panel mining dasturi emas. Haqiqiy mining alohida XMRig
- ishlayotgan kompyuter yoki serverda bajariladi.
- GitHub Pages faqat monitoring panelidir.
- </p>
+<div class="label">SAVDO VAQTI</div>
+<select id="timeframe">
+<option>M1 — 1 daqiqa</option>
+<option selected>M5 — 5 daqiqa</option>
+<option>M15 — 15 daqiqa</option>
+</select>
 </div>
+
+<div class="card">
+<div class="label">KUNLIK FOYDA MAQSADI (USD)</div>
+<select id="target">
+<option value="1">$1</option>
+<option value="5">$5</option>
+<option value="10">$10</option>
+<option value="20">$20</option>
+</select>
+<p class="label">Maqsad kafolatlangan daromad emas.</p>
+</div>
+
+<div class="card">
+<div class="label">SIGNAL MARKAZI</div>
+<div class="signal" id="signals">
+XAUUSD: Kutilmoqda<br>
+XAGUSD: Kutilmoqda
+</div>
+</div>
+
+<div class="card">
+<div class="label">XAVFSIZLIK</div>
+<div class="signal">
+• Demo rejim<br>
+• Haqiqiy order yuborilmaydi<br>
+• START faqat kuzatuv rejimini yoqadi<br>
+• STOP kuzatuvni to‘xtatadi
+</div>
+</div>
+
+<footer>JARVES FOREX BOT V1 • DEMO DASHBOARD</footer>
 
 <script>
-let timer=null;
-let config={};
+const start=document.getElementById("start");
+const stop=document.getElementById("stop");
+const status=document.getElementById("status");
+const message=document.getElementById("message");
+const signals=document.getElementById("signals");
 
-function loadSettings(){
- try{
-  config=JSON.parse(localStorage.getItem("xmr_config")||"{}");
- }catch(e){config={};}
- ["wallet","pool","port","api"].forEach(id=>{
-  document.getElementById(id).value=config[id]||"";
- });
-}
-function showSettings(){
- document.getElementById("settings").classList.toggle("hidden");
-}
-function saveSettings(){
- config={
-  wallet:document.getElementById("wallet").value.trim(),
-  pool:document.getElementById("pool").value.trim(),
-  port:document.getElementById("port").value.trim(),
-  api:document.getElementById("api").value.trim()
- };
- localStorage.setItem("xmr_config",JSON.stringify(config));
- document.getElementById("message").textContent="Sozlamalar saqlandi";
- document.getElementById("settings").classList.add("hidden");
-}
-function stopMonitor(){
- if(timer)clearInterval(timer);
- timer=null;
- document.getElementById("status").textContent="STOPPED";
- document.getElementById("message").textContent="Monitoring to‘xtatildi";
-}
-async function readStats(){
- if(!config.api){
-  document.getElementById("message").textContent="Avval API manzilini kiriting";
-  return;
- }
- try{
-  const response=await fetch(config.api,{cache:"no-store"});
-  if(!response.ok)throw Error("HTTP "+response.status);
-  const data=await response.json();
-
-  const h=data.hashrate?.total;
-  const rate=Array.isArray(h)?h[0]:h;
-  if(typeof rate!=="number")throw Error("Hashrate ma'lumoti topilmadi");
-
-  document.getElementById("hash").textContent=rate+" H/s";
-  document.getElementById("shares").textContent=data.results?.shares_good??"—";
-  document.getElementById("rejected").textContent=data.results?.shares_total!=null
-    ? Math.max(0,data.results.shares_total-(data.results.shares_good||0)):"—";
-  document.getElementById("server").textContent=
-    data.connection?.pool||"Ulangan";
-  document.getElementById("status").textContent="CONNECTED";
-  document.getElementById("mode").textContent="REAL MONITOR";
-  document.getElementById("message").textContent="Server ma'lumotlari yangilandi";
-  document.getElementById("connection").textContent="XMRig API bilan aloqa mavjud.";
- }catch(error){
-  document.getElementById("status").textContent="OFFLINE";
-  document.getElementById("server").textContent="Ulanmagan";
-  document.getElementById("hash").textContent="— H/s";
-  document.getElementById("shares").textContent="—";
-  document.getElementById("rejected").textContent="—";
-  document.getElementById("message").textContent="Ulanish xatosi: "+error.message;
-  document.getElementById("connection").textContent="Server javob bermadi yoki API sozlanmagan.";
- }
-}
-function startMonitor(){
- stopMonitor();
- loadSettings();
- document.getElementById("status").textContent="CONNECTING";
- document.getElementById("mode").textContent="MONITORING";
- readStats();
- timer=setInterval(readStats,5000);
-}
-loadSettings();
+start.onclick=()=>{
+ status.textContent="KUZATUV YOQILDI";
+ status.style.color="#39d99a";
+ message.textContent="Demo kuzatuv rejimi ishga tushdi. Jonli bozor ulanishi hali yo‘q.";
+ start.disabled=true;
+ stop.disabled=false;
+};
+stop.onclick=()=>{
+ status.textContent="TO‘XTATILGAN";
+ status.style.color="#ffbd55";
+ message.textContent="Kuzatuv to‘xtatildi.";
+ start.disabled=false;
+ stop.disabled=true;
+};
 </script>
 </body>
 </html>
