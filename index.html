@@ -5,114 +5,284 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#07111f">
-<title>JARVES FOREX BOT</title>
+<title>JARVES FOREX BOT V2</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#07111f;color:#fff;font-family:Arial,sans-serif;padding:18px}
-header{padding:18px 0}
-h1{font-size:25px;margin:0;color:#54c8ff}
-.sub{color:#91a4ba;font-size:12px;margin-top:7px}
-.card{background:#122238;border:1px solid #263c56;border-radius:15px;padding:16px;margin:13px 0}
-.label{color:#91a4ba;font-size:12px}
-.value{font-size:22px;font-weight:bold;margin-top:8px}
+body{margin:0;padding:17px;background:#07111f;color:#fff;font-family:Arial,sans-serif}
+header{padding:12px 0 20px}
+h1{margin:0;color:#54c8ff;font-size:25px}
+.sub,.muted{color:#91a4ba;font-size:12px}
+.card{background:#122238;border:1px solid #263c56;border-radius:15px;padding:15px;margin:12px 0}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-button{border:0;border-radius:12px;padding:16px;font-size:16px;font-weight:bold;width:100%;color:white}
+.label{font-size:12px;color:#91a4ba}
+.value{font-size:21px;font-weight:bold;margin-top:8px}
+button,select,input{width:100%;padding:13px;border-radius:10px;font-size:14px}
+button{border:0;color:white;font-weight:bold}
 .start{background:#0b9e68}
 .stop{background:#d63e4c}
 button:disabled{opacity:.4}
-select{width:100%;padding:12px;background:#07111f;color:white;border:1px solid #344b66;border-radius:9px;margin-top:8px}
-.status{font-weight:bold;color:#ffbd55}
-.signal{font-size:14px;line-height:1.7;color:#c8d8e9}
-footer{color:#71849a;font-size:11px;text-align:center;margin:25px 0}
+select,input{background:#07111f;color:white;border:1px solid #344b66;margin-top:8px}
+.status{color:#ffbd55;font-weight:bold}
+.green{color:#39d99a}
+.red{color:#ff6875}
+.signal{font-size:14px;line-height:1.8;color:#d4e1ef}
+hr{border:0;border-top:1px solid #263c56;margin:13px 0}
+footer{text-align:center;color:#71849a;font-size:11px;padding:20px}
 </style>
 </head>
 <body>
 <header>
 <h1>JARVES FOREX BOT</h1>
-<div class="sub">SMART SCALPING • EXNESS MT5 DEMO</div>
+<div class="sub">V2 • HYBRID SCALPING • TURTLE TRADING</div>
 </header>
 
 <div class="card">
-<div class="label">BOT HOLATI</div>
+<div class="label">ISH REJIMI</div>
 <div class="value status" id="status">TO‘XTATILGAN</div>
-<p class="label" id="message">Bot hali ishga tushirilmagan.</p>
+<p class="muted" id="message">Demo simulyatsiya. Jonli bozor ulanmagan.</p>
 <div class="grid">
 <button class="start" id="start">▶ START</button>
 <button class="stop" id="stop" disabled>■ STOP</button>
 </div>
 </div>
 
+<div class="card">
+<div class="label">DEMO MA'LUMOTLARI</div>
+<div class="grid">
+<div>
+<div class="label">Instrument</div>
+<select id="symbol">
+<option>XAUUSD</option>
+<option>XAGUSD</option>
+</select>
+</div>
+<div>
+<div class="label">Timeframe</div>
+<select id="tf">
+<option>M1</option>
+<option selected>M5</option>
+<option>M15</option>
+</select>
+</div>
+</div>
+<div class="grid">
+<div>
+<div class="label">Demo balans ($)</div>
+<input id="balance" type="number" min="1" value="1000">
+</div>
+<div>
+<div class="label">Har savdo riski</div>
+<input value="2%" disabled>
+</div>
+</div>
+</div>
+
 <div class="grid">
 <div class="card">
-<div class="label">OLTIN</div>
-<div class="value">XAUUSD</div>
+<div class="label">XAUUSD</div>
+<div class="value" id="gold">—</div>
+<div class="muted">Simulyatsiya</div>
 </div>
 <div class="card">
-<div class="label">KUMUSH</div>
-<div class="value">XAGUSD</div>
+<div class="label">XAGUSD</div>
+<div class="value" id="silver">—</div>
+<div class="muted">Simulyatsiya</div>
 </div>
 </div>
 
 <div class="card">
-<div class="label">SAVDO VAQTI</div>
-<select id="timeframe">
-<option>M1 — 1 daqiqa</option>
-<option selected>M5 — 5 daqiqa</option>
-<option>M15 — 15 daqiqa</option>
-</select>
+<div class="label">HYBRID SIGNAL</div>
+<div class="value" id="signal">WAIT</div>
+<div class="signal" id="details">START tugmasini bosing.</div>
+<hr>
+<div class="label">TURTLE BREAKOUT</div>
+<div class="signal" id="turtle">20 sham: —<br>55 sham: —</div>
+<hr>
+<div class="label">INDIKATORLAR</div>
+<div class="signal" id="indicators">EMA: —<br>RSI: —<br>ATR: —</div>
 </div>
 
 <div class="card">
-<div class="label">KUNLIK FOYDA MAQSADI (USD)</div>
-<select id="target">
-<option value="1">$1</option>
-<option value="5">$5</option>
-<option value="10">$10</option>
-<option value="20">$20</option>
-</select>
-<p class="label">Maqsad kafolatlangan daromad emas.</p>
-</div>
-
-<div class="card">
-<div class="label">SIGNAL MARKAZI</div>
-<div class="signal" id="signals">
-XAUUSD: Kutilmoqda<br>
-XAGUSD: Kutilmoqda
+<div class="label">RISK HISOBLAGICHI</div>
+<div class="value" id="riskmoney">$20.00</div>
+<div class="signal" id="riskdetails">
+Demo balansning 2 foizi. Bu taxminiy risk summasi, lot hajmi emas.
 </div>
 </div>
 
 <div class="card">
-<div class="label">XAVFSIZLIK</div>
+<div class="label">STOP LOSS / TAKE PROFIT</div>
+<div class="signal" id="levels">
+Signal kutilmoqda.
+</div>
+</div>
+
+<div class="card">
+<div class="label">XAVFSIZLIK QOIDALARI</div>
 <div class="signal">
-• Demo rejim<br>
+• Faqat demo simulyatsiya<br>
 • Haqiqiy order yuborilmaydi<br>
-• START faqat kuzatuv rejimini yoqadi<br>
-• STOP kuzatuvni to‘xtatadi
+• 2% risk hisob-kitobi<br>
+• STOP bosilganda kuzatuv to‘xtaydi<br>
+• Jonli Exness ulanishi hali mavjud emas
 </div>
 </div>
 
-<footer>JARVES FOREX BOT V1 • DEMO DASHBOARD</footer>
+<footer>JARVES FOREX BOT V2 • DEMO ONLY</footer>
 
 <script>
-const start=document.getElementById("start");
-const stop=document.getElementById("stop");
-const status=document.getElementById("status");
-const message=document.getElementById("message");
-const signals=document.getElementById("signals");
+const $=id=>document.getElementById(id);
+let running=false;
+let timer=null;
+let candles=[];
+let price=2300;
 
-start.onclick=()=>{
- status.textContent="KUZATUV YOQILDI";
- status.style.color="#39d99a";
- message.textContent="Demo kuzatuv rejimi ishga tushdi. Jonli bozor ulanishi hali yo‘q.";
- start.disabled=true;
- stop.disabled=false;
+function makeCandles(){
+ candles=[];
+ let p=price;
+ for(let i=0;i<100;i++){
+  let move=(Math.random()-.49)*2.8;
+  let open=p;
+  p=Math.max(1,p+move);
+  candles.push({
+   open,
+   close:p,
+   high:Math.max(open,p)+Math.random()*1.2,
+   low:Math.min(open,p)-Math.random()*1.2
+  });
+ }
+ price=p;
+}
+
+function ema(values,period){
+ if(values.length<period)return null;
+ let k=2/(period+1);
+ let result=values[0];
+ for(let i=1;i<values.length;i++){
+  result=values[i]*k+result*(1-k);
+ }
+ return result;
+}
+
+function rsi(values,period=14){
+ if(values.length<=period)return 50;
+ let gains=0,losses=0;
+ for(let i=values.length-period;i<values.length;i++){
+  let d=values[i]-values[i-1];
+  if(d>0)gains+=d;
+  else losses-=d;
+ }
+ if(losses===0)return 100;
+ return 100-(100/(1+gains/losses));
+}
+
+function atr(data,period=14){
+ let ranges=data.slice(-period).map(c=>c.high-c.low);
+ return ranges.reduce((a,b)=>a+b,0)/ranges.length;
+}
+
+function channel(data,n){
+ let previous=data.slice(-(n+1),-1);
+ return {
+  high:Math.max(...previous.map(c=>c.high)),
+  low:Math.min(...previous.map(c=>c.low))
+ };
+}
+
+function analyze(){
+ let closes=candles.map(c=>c.close);
+ let last=candles[candles.length-1];
+ let e9=ema(closes.slice(-30),9);
+ let e21=ema(closes.slice(-40),21);
+ let rv=rsi(closes);
+ let av=atr(candles);
+ let ch20=channel(candles,20);
+ let ch55=channel(candles,55);
+
+ let buy20=last.close>ch20.high;
+ let sell20=last.close<ch20.low;
+ let buy55=last.close>ch55.high;
+ let sell55=last.close<ch55.low;
+
+ let up=e9>e21;
+ let down=e9<e21;
+ let buy=(buy20||buy55)&&up&&rv>=50&&rv<=70;
+ let sell=(sell20||sell55)&&down&&rv>=30&&rv<=50;
+
+ let direction=buy?"BUY":sell?"SELL":"WAIT";
+ let risk=Number($("balance").value)*0.02;
+ let sl=av*1.5;
+ let tp=sl*2;
+
+ $("signal").textContent=direction;
+ $("signal").className="value "+(buy?"green":sell?"red":"status");
+
+ $("details").innerHTML=
+ "Narx: "+last.close.toFixed(2)+"<br>"+
+ "EMA trend: "+(up?"YUQORIGA":down?"PASTGA":"NEYTRAL")+"<br>"+
+ "Signal: "+(buy||sell?"Strategiyalar tasdiqladi":"Yetarli tasdiq yo‘q");
+
+ $("turtle").innerHTML=
+ "20 sham: "+(buy20?"BUY breakout":sell20?"SELL breakout":"Breakout yo‘q")+
+ "<br>55 sham: "+(buy55?"BUY breakout":sell55?"SELL breakout":"Breakout yo‘q");
+
+ $("indicators").innerHTML=
+ "EMA 9: "+e9.toFixed(2)+"<br>"+
+ "EMA 21: "+e21.toFixed(2)+"<br>"+
+ "RSI 14: "+rv.toFixed(1)+"<br>"+
+ "ATR 14: "+av.toFixed(3);
+
+ $("riskmoney").textContent="$"+risk.toFixed(2);
+ $("riskdetails").textContent=
+ "Balansning 2 foizi. Bir signal uchun taxminiy risk.";
+
+ $("levels").innerHTML=(buy||sell)?
+ "Yo‘nalish: "+direction+"<br>"+
+ "Taxminiy SL: "+(buy?last.close-sl:last.close+sl).toFixed(2)+"<br>"+
+ "Taxminiy TP: "+(buy?last.close+tp:last.close-tp).toFixed(2)+
+ "<br>1:2 risk/foyda nisbati":
+ "Signal yo‘q. SL/TP hisoblanmadi.";
+
+ $("gold").textContent=last.close.toFixed(2);
+ $("silver").textContent=(last.close/100).toFixed(3);
+}
+
+function tick(){
+ let previous=candles[candles.length-1].close;
+ let move=(Math.random()-.49)*2.5;
+ let next=Math.max(1,previous+move);
+ candles.push({
+  open:previous,
+  close:next,
+  high:Math.max(previous,next)+Math.random(),
+  low:Math.min(previous,next)-Math.random()
+ });
+ if(candles.length>120)candles.shift();
+ price=next;
+ analyze();
+}
+
+$("start").onclick=()=>{
+ if(running)return;
+ running=true;
+ makeCandles();
+ $("status").textContent="DEMO KUZATUV ISHLAMOQDA";
+ $("status").className="value green";
+ $("message").textContent="Faqat simulyatsiya ma'lumotlari ishlatilmoqda.";
+ $("start").disabled=true;
+ $("stop").disabled=false;
+ tick();
+ timer=setInterval(tick,3000);
 };
-stop.onclick=()=>{
- status.textContent="TO‘XTATILGAN";
- status.style.color="#ffbd55";
- message.textContent="Kuzatuv to‘xtatildi.";
- start.disabled=false;
- stop.disabled=true;
+
+$("stop").onclick=()=>{
+ running=false;
+ clearInterval(timer);
+ $("status").textContent="TO‘XTATILGAN";
+ $("status").className="value status";
+ $("message").textContent="Demo kuzatuv to‘xtatildi.";
+ $("start").disabled=false;
+ $("stop").disabled=true;
 };
 </script>
 </body>
