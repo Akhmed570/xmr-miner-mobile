@@ -3,196 +3,177 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101510">
-<title>XMR MINER MOBILE</title>
-
+<title>XMR MINER V2</title>
 <style>
-* {box-sizing:border-box}
-
-body {
-  margin:0;
-  padding:25px 18px;
-  background:#101510;
-  color:white;
-  font-family:Arial,sans-serif;
+*{box-sizing:border-box}
+body{
+ margin:0;padding:22px 16px;background:#101510;
+ color:white;font-family:Arial,sans-serif
 }
-
-h1 {
-  color:#ff9d35;
-  text-align:center;
-  letter-spacing:2px;
+h1{text-align:center;color:#ff9d35;letter-spacing:3px}
+.subtitle{text-align:center;color:#aaa;font-size:12px}
+.card{
+ background:#1b251d;padding:20px;border-radius:18px;
+ margin-top:18px;border:1px solid #354438
 }
-
-.subtitle {
-  text-align:center;
-  color:#aaa;
+.balance{text-align:center;font-size:30px;color:#ffbd68;margin:18px 0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#263329;padding:14px;border-radius:12px}
+.stat small{color:#aaa}
+.stat strong{display:block;margin-top:8px;overflow-wrap:anywhere}
+button{
+ width:100%;padding:14px;margin-top:12px;border:0;
+ border-radius:11px;font-size:16px;font-weight:bold
 }
-
-.card {
-  background:#1b251d;
-  padding:22px;
-  border-radius:20px;
-  margin-top:22px;
-  border:1px solid #354438;
+.start{background:#ff9d35;color:#171717}
+.stop{background:#444;color:white}
+.secondary{background:#344439;color:white}
+input{
+ width:100%;padding:13px;margin-top:7px;
+ border-radius:9px;border:1px solid #526252;
+ background:#101a12;color:white;font-size:14px
 }
-
-.balance {
-  font-size:30px;
-  color:#ffbd68;
-  text-align:center;
-  margin:15px 0;
-}
-
-.stats {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.stat {
-  background:#263329;
-  padding:15px;
-  border-radius:13px;
-}
-
-.stat small {
-  color:#aaa;
-}
-
-.stat strong {
-  display:block;
-  margin-top:8px;
-}
-
-button {
-  border:0;
-  padding:15px;
-  margin-top:12px;
-  width:100%;
-  border-radius:12px;
-  font-size:17px;
-  font-weight:bold;
-}
-
-#start {
-  background:#ff9d35;
-  color:#171717;
-}
-
-#stop {
-  background:#444;
-  color:white;
-}
-
-.status {
-  text-align:center;
-  color:#ffbd68;
-  margin-top:15px;
-}
-
-.note {
-  color:#999;
-  font-size:12px;
-  line-height:1.6;
-  text-align:center;
-}
+label{display:block;margin-top:14px;color:#ddd;font-size:13px}
+.status{text-align:center;color:#ffbd68;margin-top:15px}
+.note{font-size:12px;line-height:1.6;color:#aaa;text-align:center}
+.hidden{display:none}
+.green{color:#70df8a}
+.orange{color:#ffbd68}
 </style>
 </head>
-
 <body>
 
 <h1>XMR MINER</h1>
-<p class="subtitle">MONERO MOBILE DASHBOARD</p>
+<p class="subtitle">MONERO MOBILE DASHBOARD V2</p>
 
 <div class="card">
+ <p style="text-align:center;color:#aaa">MINING BALANCE</p>
+ <div class="balance" id="balance">— XMR</div>
 
-<p style="text-align:center">
-DEMO BALANCE
-</p>
+ <div class="stats">
+  <div class="stat"><small>Hashrate</small><strong id="hash">— H/s</strong></div>
+  <div class="stat"><small>Server</small><strong id="server">Ulanmagan</strong></div>
+  <div class="stat"><small>Holat</small><strong id="status">STOPPED</strong></div>
+  <div class="stat"><small>Rejim</small><strong id="mode">MONITORING</strong></div>
+  <div class="stat"><small>Qabul qilingan share</small><strong id="shares">—</strong></div>
+  <div class="stat"><small>Rad etilgan share</small><strong id="rejected">—</strong></div>
+ </div>
 
-<div class="balance" id="balance">
-0.000000 XMR
+ <button class="start" onclick="startMonitor()">START MONITORING</button>
+ <button class="stop" onclick="stopMonitor()">STOP</button>
+ <button class="secondary" onclick="showSettings()">SERVER SOZLAMALARI</button>
+ <p class="status" id="message">Monitoring to‘xtatilgan</p>
 </div>
 
-<div class="stats">
+<div class="card hidden" id="settings">
+ <h3 style="color:#ff9d35">SERVER SOZLAMALARI</h3>
 
-<div class="stat">
-<small>Hashrate</small>
-<strong id="hash">0 H/s</strong>
+ <label>XMR Wallet manzili</label>
+ <input id="wallet" placeholder="4... yoki 8...">
+
+ <label>Mining Pool URL</label>
+ <input id="pool" placeholder="Masalan: pool.example.com">
+
+ <label>Pool Port</label>
+ <input id="port" type="number" placeholder="Port raqami">
+
+ <label>XMRig API manzili (monitoring)</label>
+ <input id="api" type="url" placeholder="https://your-server.example/api/2/summary">
+
+ <button class="start" onclick="saveSettings()">SOZLAMALARNI SAQLASH</button>
+ <p class="note">
+ Wallet manzili maxfiy kalit emas. Seed phrase va maxfiy kalitni
+ bu yerga hech qachon kiritmang.
+ </p>
 </div>
 
-<div class="stat">
-<small>Server</small>
-<strong id="server">Ulanmagan</strong>
-</div>
-
-<div class="stat">
-<small>Holat</small>
-<strong id="status">STOPPED</strong>
-</div>
-
-<div class="stat">
-<small>Mining</small>
-<strong id="mode">DEMO</strong>
-</div>
-
-</div>
-
-<button id="start" onclick="startMiner()">
-START
-</button>
-
-<button id="stop" onclick="stopMiner()">
-STOP
-</button>
-
-<p class="note">
-Bu demo interfeys. Haqiqiy Monero mining
-bajarmaydi. Balans va Hashrate haqiqiy
-daromadni bildirmaydi.
-</p>
-
+<div class="card">
+ <h3 style="color:#ff9d35">LOYIHA HOLATI</h3>
+ <p id="connection">XMRig server hali ulanmagan.</p>
+ <p class="note">
+ Bu panel mining dasturi emas. Haqiqiy mining alohida XMRig
+ ishlayotgan kompyuter yoki serverda bajariladi.
+ GitHub Pages faqat monitoring panelidir.
+ </p>
 </div>
 
 <script>
+let timer=null;
+let config={};
 
-let running = false;
-
-function startMiner() {
-
-  if (running) return;
-
-  running = true;
-
-  document.getElementById("status")
-    .textContent = "MONITORING ACTIVE";
-
-  document.getElementById("server")
-    .textContent = "Ulanmagan";
-
-  document.getElementById("hash")
-    .textContent = "0 H/s";
-
-  document.getElementById("balance")
-    .textContent = "0.000000 XMR";
-
+function loadSettings(){
+ try{
+  config=JSON.parse(localStorage.getItem("xmr_config")||"{}");
+ }catch(e){config={};}
+ ["wallet","pool","port","api"].forEach(id=>{
+  document.getElementById(id).value=config[id]||"";
+ });
 }
-
-function stopMiner() {
-
-  running = false;
-
-  document.getElementById("status")
-    .textContent = "STOPPED";
-
-  document.getElementById("hash")
-    .textContent = "0 H/s";
-
+function showSettings(){
+ document.getElementById("settings").classList.toggle("hidden");
 }
+function saveSettings(){
+ config={
+  wallet:document.getElementById("wallet").value.trim(),
+  pool:document.getElementById("pool").value.trim(),
+  port:document.getElementById("port").value.trim(),
+  api:document.getElementById("api").value.trim()
+ };
+ localStorage.setItem("xmr_config",JSON.stringify(config));
+ document.getElementById("message").textContent="Sozlamalar saqlandi";
+ document.getElementById("settings").classList.add("hidden");
+}
+function stopMonitor(){
+ if(timer)clearInterval(timer);
+ timer=null;
+ document.getElementById("status").textContent="STOPPED";
+ document.getElementById("message").textContent="Monitoring to‘xtatildi";
+}
+async function readStats(){
+ if(!config.api){
+  document.getElementById("message").textContent="Avval API manzilini kiriting";
+  return;
+ }
+ try{
+  const response=await fetch(config.api,{cache:"no-store"});
+  if(!response.ok)throw Error("HTTP "+response.status);
+  const data=await response.json();
 
+  const h=data.hashrate?.total;
+  const rate=Array.isArray(h)?h[0]:h;
+  if(typeof rate!=="number")throw Error("Hashrate ma'lumoti topilmadi");
+
+  document.getElementById("hash").textContent=rate+" H/s";
+  document.getElementById("shares").textContent=data.results?.shares_good??"—";
+  document.getElementById("rejected").textContent=data.results?.shares_total!=null
+    ? Math.max(0,data.results.shares_total-(data.results.shares_good||0)):"—";
+  document.getElementById("server").textContent=
+    data.connection?.pool||"Ulangan";
+  document.getElementById("status").textContent="CONNECTED";
+  document.getElementById("mode").textContent="REAL MONITOR";
+  document.getElementById("message").textContent="Server ma'lumotlari yangilandi";
+  document.getElementById("connection").textContent="XMRig API bilan aloqa mavjud.";
+ }catch(error){
+  document.getElementById("status").textContent="OFFLINE";
+  document.getElementById("server").textContent="Ulanmagan";
+  document.getElementById("hash").textContent="— H/s";
+  document.getElementById("shares").textContent="—";
+  document.getElementById("rejected").textContent="—";
+  document.getElementById("message").textContent="Ulanish xatosi: "+error.message;
+  document.getElementById("connection").textContent="Server javob bermadi yoki API sozlanmagan.";
+ }
+}
+function startMonitor(){
+ stopMonitor();
+ loadSettings();
+ document.getElementById("status").textContent="CONNECTING";
+ document.getElementById("mode").textContent="MONITORING";
+ readStats();
+ timer=setInterval(readStats,5000);
+}
+loadSettings();
 </script>
-
 </body>
 </html>
